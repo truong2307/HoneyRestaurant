@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Honey.Services.ProductAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Honey.Services.ProductAPI.DbContexts
 {
@@ -8,5 +9,7 @@ namespace Honey.Services.ProductAPI.DbContexts
         {
         }
 
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
