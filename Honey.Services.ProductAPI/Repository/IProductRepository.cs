@@ -8,7 +8,8 @@ namespace Honey.Services.ProductAPI.Repository
     {
         Task<IEnumerable<ProductDto>> GetProducts();
         Task<ProductDto> GetProductById(int productId);
-        Task<ProductDto> CreateUpdateProduct(ProductDto productRequest);
+        Task<ProductDto> CreateProduct(ProductDto productRequest);
+        Task<ProductDto> UpdateProduct(ProductDto productRequest);
         Task<bool> DeleteProduct(int productId);
     }
 }

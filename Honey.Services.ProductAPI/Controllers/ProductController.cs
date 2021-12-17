@@ -61,7 +61,7 @@ namespace Honey.Services.ProductAPI.Controllers
         {
             try
             {
-                ProductDto productInDb = await _unitOfWork.Product.CreateUpdateProduct(productRequest);
+                ProductDto productInDb = await _unitOfWork.Product.CreateProduct(productRequest);
                 _response.Result = productInDb;
 
             }
@@ -79,7 +79,7 @@ namespace Honey.Services.ProductAPI.Controllers
         {
             try
             {
-                ProductDto productInDb = await _unitOfWork.Product.CreateUpdateProduct(productRequest);
+                ProductDto productInDb = await _unitOfWork.Product.UpdateProduct(productRequest);
                 _response.Result = productInDb;
 
             }

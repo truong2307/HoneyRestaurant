@@ -59,7 +59,7 @@ namespace Honey.Services.ProductAPI.Controllers
         {
             try
             {
-                CategoryDto categoryInDb = await _unitofwork.Category.CreateUpdateCategory(categoryRequest);
+                CategoryDto categoryInDb = await _unitofwork.Category.CreateCategory(categoryRequest);
                 _response.Result = categoryInDb;
             }
             catch (Exception ex)
@@ -76,7 +76,7 @@ namespace Honey.Services.ProductAPI.Controllers
         {
             try
             {
-                CategoryDto categoryInDb = await _unitofwork.Category.CreateUpdateCategory(categoryRequest);
+                CategoryDto categoryInDb = await _unitofwork.Category.UpdateCategory(categoryRequest);
                 _response.Result = categoryInDb;
             }
             catch (Exception ex)

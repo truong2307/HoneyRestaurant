@@ -18,19 +18,23 @@ namespace Honey.Services.ProductAPI.Repository
             _mapper = mapper;
         }
 
-        public async Task<CategoryDto> CreateUpdateCategory(CategoryDto categoryRequest)
+        public async Task<CategoryDto> UpdateCategory(CategoryDto categoryRequest)
+        {
+            Category categoryInDb = await _db.Categories
+                .FirstOrDefaultAsync(c => c.CategoryId == categoryRequest.CategoryId);
+
+            categoryInDb.Name = categoryRequest.Name;
+            await _db.SaveChangesAsync();
+
+            return _mapper.Map<CategoryDto>(categoryInDb);
+        }
+
+        public async Task<CategoryDto> CreateCategory(CategoryDto categoryRequest)
         {
             Category categoryToDb = _mapper.Map<Category>(categoryRequest);
-            if (categoryToDb.CategoryId > 0)
-            {
-                _db.Categories.Update(categoryToDb);
-            }
-            else
-            {
-                _db.Categories.Add(categoryToDb);
-            }
-
+            _db.Categories.Add(categoryToDb);
             await _db.SaveChangesAsync();
+
             return _mapper.Map<CategoryDto>(categoryToDb);
         }
 

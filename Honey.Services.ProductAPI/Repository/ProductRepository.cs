@@ -19,20 +19,27 @@ namespace Honey.Services.ProductAPI.Repository
             _mapper = mapper;
         }
 
-        public async Task<ProductDto> CreateUpdateProduct(ProductDto productRequest)
+        public async Task<ProductDto> CreateProduct(ProductDto productRequest)
         {
             Product productToDb = _mapper.Map<Product>(productRequest);
-            if (productToDb.ProductId > 0)
-            {
-                _db.Products.Update(productToDb);
-            }
-            else
-            {
-                _db.Products.Add(productToDb);
-            }
-
+            _db.Products.Add(productToDb);
             await _db.SaveChangesAsync();
+
             return _mapper.Map<ProductDto>(productToDb);
+        }
+
+        public async Task<ProductDto> UpdateProduct(ProductDto productRequest)
+        {
+            Product productInDb = await _db.Products.Include(c => c.Category)
+                .FirstOrDefaultAsync(c => c.ProductId == productRequest.ProductId);
+
+            productInDb.Name = productRequest.Name;
+            productInDb.Price = productRequest.Price;
+            productInDb.Description = productRequest.Description;
+            productInDb.CategoryId = productRequest.CategoryId;
+            productInDb.ImageUrl = productRequest.ImageUrl;
+
+            return _mapper.Map<ProductDto>(productInDb);
         }
 
         public async Task<bool> DeleteProduct(int productId)
@@ -57,13 +64,19 @@ namespace Honey.Services.ProductAPI.Repository
 
         public async Task<ProductDto> GetProductById(int productId)
         {
-            Product productInDb = await _db.Products.FirstOrDefaultAsync(c => c.ProductId == productId);
+            Product productInDb = await _db.Products
+                .Include(c => c.Category)
+                .FirstOrDefaultAsync(c => c.ProductId == productId);
+
             return _mapper.Map<ProductDto>(productInDb);
         }
 
         public async Task<IEnumerable<ProductDto>> GetProducts()
         {
-            List<Product> listProductInDb = await _db.Products.ToListAsync();
+            List<Product> listProductInDb = await _db.Products
+                .Include(c => c.Category)
+                .ToListAsync();
+
             return _mapper.Map<List<ProductDto>>(listProductInDb);
         }
     }

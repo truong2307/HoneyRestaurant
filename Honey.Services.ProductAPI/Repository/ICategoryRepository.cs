@@ -8,7 +8,8 @@ namespace Honey.Services.ProductAPI.Repository
     {
         Task<IEnumerable<CategoryDto>> GetCategories();
         Task<CategoryDto> GetCategoryById(int categoryId);
-        Task<CategoryDto> CreateUpdateCategory(CategoryDto categoryRequest);
+        Task<CategoryDto> UpdateCategory(CategoryDto categoryRequest);
+        Task<CategoryDto> CreateCategory(CategoryDto categoryRequest);
         Task<bool> DeleteCategory(int categoryId);
     }
 }
