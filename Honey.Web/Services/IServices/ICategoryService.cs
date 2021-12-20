@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Honey.Web.Services.IServices
 {
-    public interface ICategoryService
+    public interface ICategoryService : IBaseService
     {
         Task<T> GetAllCategoriessAsync<T>();
         Task<T> GetCategoryByIdAsync<T>(int categoryId);

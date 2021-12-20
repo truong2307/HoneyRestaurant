@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Honey.Services.ProductAPI.Controllers
 {
-    [Route("api/product")]
+    [Route("api/products")]
     [ApiController]
     public class ProductController : ControllerBase
     {

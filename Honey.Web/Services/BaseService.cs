@@ -15,6 +15,9 @@ namespace Honey.Web.Services
         public ResponseDto responseModel { get; set; }
         public IHttpClientFactory _httpClient { get; set; }
 
+
+        //docs http:https://xuanthulab.net/giao-thuc-http-va-cau-truc-co-ban-cua-http-message.html#httpmessage
+
         public BaseService(IHttpClientFactory httpClient)
         {
             this.responseModel = new ResponseDto();
@@ -28,6 +31,7 @@ namespace Honey.Web.Services
                 var client = _httpClient.CreateClient("HoneyAPI");
 
                 HttpRequestMessage message = new HttpRequestMessage();
+                //Accept trong Request cho biết kiểu nội dung trả về mà client có thể hiểu.
                 message.Headers.Add("Accept", "application/json");
                 message.RequestUri = new Uri(apiRequest.Url);
 
