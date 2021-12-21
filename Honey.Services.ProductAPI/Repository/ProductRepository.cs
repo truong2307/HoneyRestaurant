@@ -39,6 +39,8 @@ namespace Honey.Services.ProductAPI.Repository
             productInDb.CategoryId = productRequest.CategoryId;
             productInDb.ImageUrl = productRequest.ImageUrl;
 
+            await _db.SaveChangesAsync();
+
             return _mapper.Map<ProductDto>(productInDb);
         }
 
