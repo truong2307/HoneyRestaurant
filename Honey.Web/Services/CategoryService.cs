@@ -20,7 +20,7 @@ namespace Honey.Web.Services
             return await this.SendAsync<T>(new ApiRequest()
             {
                 ApiType = SD.ApiType.POST,
-                Url = SD.ProductAPIBase = "/api/categories",
+                Url = SD.ProductAPIBase + "api/categories",
                 Data = categoryRequest,
                 AccessToken = ""
             });
@@ -31,7 +31,7 @@ namespace Honey.Web.Services
             return await this.SendAsync<T>(new ApiRequest()
             {
                 ApiType = SD.ApiType.DELETE,
-                Url = SD.ProductAPIBase = "/api/categories"+categoryId,
+                Url = SD.ProductAPIBase + "api/categories"+categoryId,
                 AccessToken = ""
             });
         }
@@ -41,7 +41,7 @@ namespace Honey.Web.Services
             return await this.SendAsync<T>(new ApiRequest()
             {
                 ApiType = SD.ApiType.GET,
-                Url = SD.ProductAPIBase = "/api/categories",
+                Url = SD.ProductAPIBase + "api/categories",
                 AccessToken = ""
             });
         }
@@ -51,7 +51,7 @@ namespace Honey.Web.Services
             return await this.SendAsync<T>(new ApiRequest()
             {
                 ApiType = SD.ApiType.GET,
-                Url = SD.ProductAPIBase = "/api/categories" + categoryId,
+                Url = SD.ProductAPIBase + "api/categories" + categoryId,
                 AccessToken = ""
             });
         }
@@ -62,7 +62,7 @@ namespace Honey.Web.Services
             {
                 ApiType = SD.ApiType.DELETE,
                 Data = categoryRequest,
-                Url = SD.ProductAPIBase = "/api/categories",
+                Url = SD.ProductAPIBase + "api/categories",
                 AccessToken = ""
             });
         }
