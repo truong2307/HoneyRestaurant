@@ -30,6 +30,87 @@ namespace Honey.Web.Controllers
             return View(listCategories);
         }
 
-        
+        public async Task<IActionResult> CategoryCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CategoryCreate(CategoryDto categoryRequest)
+        {
+            if(ModelState.IsValid)
+            {
+                var categoryResponse = await _categoryService.CreateCategoryAsync<ResponseDto>(categoryRequest);
+
+                if (categoryResponse != null && categoryResponse.IsSuccess)
+                {
+                    return RedirectToAction(nameof(CategoryIndex));
+                }
+            }    
+
+            return View(categoryRequest);
+        }
+
+        public async Task<IActionResult> CategoryEdit(int categoryId)
+        {
+            CategoryDto categoryInDb = new();
+
+            var categoryResponse = await _categoryService.GetCategoryByIdAsync<ResponseDto>(categoryId);
+
+            if (categoryResponse != null && categoryResponse.IsSuccess)
+            {
+                categoryInDb = JsonConvert.DeserializeObject<CategoryDto>(Convert.ToString(categoryResponse.Result));
+            }
+
+            return View(categoryInDb);
+
+        }
+     
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CategoryEdit(CategoryDto categoryRequest)
+        {
+            var categoryResponse = await _categoryService.UpdateCategoryAsync<ResponseDto>(categoryRequest);
+
+            if (categoryResponse != null && categoryResponse.IsSuccess)
+            {
+                return RedirectToAction(nameof(CategoryIndex));
+            }
+
+            return View(categoryRequest);
+
+        }
+
+        public async Task<IActionResult> CategoryDelete(int categoryId)
+        {
+            CategoryDto categoryInDb = new();
+
+            var categoryResponse = await _categoryService.GetCategoryByIdAsync<ResponseDto>(categoryId);
+
+            if (categoryResponse != null && categoryResponse.IsSuccess)
+            {
+                categoryInDb = JsonConvert.DeserializeObject<CategoryDto>(Convert.ToString(categoryResponse.Result));
+            }
+
+            return View(categoryInDb);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CategoryDelete(CategoryDto categoryRequest)
+        {
+            var categoryResponse = await _categoryService.DeleteCategoryAsync<ResponseDto>(categoryRequest.CategoryId);
+
+            if (categoryResponse.IsSuccess)
+            {
+                return RedirectToAction(nameof(CategoryIndex));
+            }
+
+            return View(categoryRequest);
+
+        }
+
     }
 }

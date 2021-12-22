@@ -60,7 +60,7 @@ namespace Honey.Web.Services
         {
             return await this.SendAsync<T>(new ApiRequest()
             {
-                ApiType = SD.ApiType.DELETE,
+                ApiType = SD.ApiType.PUT,
                 Data = categoryRequest,
                 Url = SD.ProductAPIBase + "api/categories",
                 AccessToken = ""
