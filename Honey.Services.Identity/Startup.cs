@@ -1,4 +1,5 @@
 using Honey.Services.Identity.DbContexts;
+using Honey.Services.Identity.Initializer;
 using Honey.Services.Identity.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,13 +46,15 @@ namespace Honey.Services.Identity
             .AddInMemoryClients(SD.Clients)
             .AddAspNetIdentity<ApplicationUser>();
 
+            services.AddScoped<IDbInitializer, DbInitializer>();
+
             builder.AddDeveloperSigningCredential();
 
             services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -71,6 +74,8 @@ namespace Honey.Services.Identity
             app.UseIdentityServer();
 
             app.UseAuthorization();
+
+            dbInitializer.Initialize();
 
             app.UseEndpoints(endpoints =>
             {
