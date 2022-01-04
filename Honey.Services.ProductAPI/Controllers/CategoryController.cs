@@ -1,5 +1,6 @@
 ﻿using Honey.Services.ProductAPI.Models.Dto;
 using Honey.Services.ProductAPI.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +22,7 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<object> GetCategories()
         {
             try
@@ -38,6 +40,7 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpGet("{categoryId}")]
+        [Authorize]
         public async Task<object> GetCategories(int categoryId)
         {
             try
@@ -55,6 +58,7 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<object> CreateCategory(CategoryDto categoryRequest)
         {
             try
@@ -72,6 +76,7 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<object> UpdateCatgory(CategoryDto categoryRequest)
         {
             try
@@ -89,6 +94,7 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpDelete("{categoryId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<object> DeleteCategory(int categoryId)
         {
             try

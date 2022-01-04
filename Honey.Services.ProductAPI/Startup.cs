@@ -37,10 +37,9 @@ namespace Honey.Services.ProductAPI
             services.AddAllServices();
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Honey.Services.ProductAPI", Version = "v1" });
-            });
+
+            // config bearer auth
+            services.ConfigBearerAuthen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,5 +1,6 @@
 ﻿using Honey.Services.ProductAPI.Models.Dto;
 using Honey.Services.ProductAPI.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +22,7 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<object> GetProducts()
         {
             try
@@ -39,6 +41,7 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpGet("{productId}")]
+        [Authorize]
         public async Task<object> GetProduct(int productId)
         {
             try
@@ -57,6 +60,7 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<object> CreateProduct(ProductDto productRequest)
         {
             try
@@ -75,6 +79,7 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<object> UpdateProduct(ProductDto productRequest)
         {
             try
@@ -93,6 +98,7 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpDelete("{productId}")]
+        [Authorize(Roles ="Admin")]
         public async Task<object> DeleteProduct(int productId)
         {
             try
