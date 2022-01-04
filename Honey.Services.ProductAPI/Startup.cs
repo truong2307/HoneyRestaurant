@@ -1,6 +1,7 @@
 using AutoMapper;
 using Honey.Services.ProductAPI.DbContexts;
 using Honey.Services.ProductAPI.Repository;
+using Honey.Services.ProductAPI.Utility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,12 +34,7 @@ namespace Honey.Services.ProductAPI
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //config auto mapper
-            IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
-            services.AddSingleton(mapper);
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddAllServices();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
