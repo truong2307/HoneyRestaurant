@@ -3,6 +3,7 @@ using Honey.Web.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Honey.Web.Utility
 {
@@ -23,6 +24,31 @@ namespace Honey.Web.Utility
 
             //get value appsetting
             SD.ProductAPIBase = configuration["ServiceUrls:ProductAPI"];
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigToUseIdentitySever(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc";
+            })
+                .AddCookie("Cookies", c => c.ExpireTimeSpan = TimeSpan.FromMinutes(15))
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.Authority = configuration["ServiceUrls:IdentityAPI"];
+                    options.GetClaimsFromUserInfoEndpoint = true;
+                    options.ClientId = "honey";
+                    options.ClientSecret = "secret";
+                    options.ResponseMode = "code";
+
+                    options.TokenValidationParameters.NameClaimType = "name";
+                    options.TokenValidationParameters.RoleClaimType = "role";
+                    options.Scope.Add("honey");
+                    options.SaveTokens = true;
+                });
 
             return services;
         }

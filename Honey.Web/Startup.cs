@@ -30,6 +30,8 @@ namespace Honey.Web
             services.AddAllServices(Configuration);
 
             services.AddControllersWithViews();
+
+            services.ConfigToUseIdentitySever(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +51,8 @@ namespace Honey.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
