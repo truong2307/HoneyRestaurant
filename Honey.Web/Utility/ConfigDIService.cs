@@ -42,7 +42,7 @@ namespace Honey.Web.Utility
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.ClientId = "honey";
                     options.ClientSecret = "secret";
-                    options.ResponseMode = "code";
+                    options.ResponseType = "code";
 
                     options.TokenValidationParameters.NameClaimType = "name";
                     options.TokenValidationParameters.RoleClaimType = "role";

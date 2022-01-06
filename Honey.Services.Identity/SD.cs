@@ -50,7 +50,7 @@ namespace Honey.Services.Identity
                         IdentityServerConstants.StandardScopes.Email,
                         "honey"
                     }
-                }
+                },
             };
     }
 }
