@@ -1,6 +1,9 @@
+using Duende.IdentityServer.Services;
 using Honey.Services.Identity.DbContexts;
 using Honey.Services.Identity.Initializer;
 using Honey.Services.Identity.Models;
+using Honey.Services.Identity.Services;
+using Honey.Services.Identity.Utility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,27 +31,7 @@ namespace Honey.Services.Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-
-            var builder = services.AddIdentityServer(options =>
-            {
-                options.Events.RaiseErrorEvents = true;
-                options.Events.RaiseInformationEvents = true;
-                options.Events.RaiseFailureEvents = true;
-                options.Events.RaiseSuccessEvents = true;
-                options.EmitStaticAudienceClaim = true;
-            }).AddInMemoryIdentityResources(SD.IdentityResources)
-            .AddInMemoryApiScopes(SD.ApiScopes)
-            .AddInMemoryClients(SD.Clients)
-            .AddAspNetIdentity<ApplicationUser>();
-
-            services.AddScoped<IDbInitializer, DbInitializer>();
-
-            builder.AddDeveloperSigningCredential();
+            services.AddAllServices(Configuration);
 
             services.AddControllersWithViews();
         }
