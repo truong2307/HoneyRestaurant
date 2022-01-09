@@ -1,6 +1,8 @@
 ﻿using Honey.Web.Models.Dto;
 using Honey.Web.Models.ViewModel;
 using Honey.Web.Services.IServices;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -25,7 +27,8 @@ namespace Honey.Web.Controllers
         {
             List<ProductDto> listProductsInDb = new();
 
-            var productResponse = await _productService.GetAllProductsAsync<ResponseDto>();
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var productResponse = await _productService.GetAllProductsAsync<ResponseDto>(accessToken);
             if (productResponse != null && productResponse.IsSuccess)
             {
                 listProductsInDb = JsonConvert.DeserializeObject<List<ProductDto>>(Convert.ToString(productResponse.Result));
@@ -34,10 +37,13 @@ namespace Honey.Web.Controllers
             return View(listProductsInDb);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ProductCreate()
         {
             List<CategoryDto> listCategoriesInDb = null;
-            var responseCategory = await _categoryService.GetAllCategoriessAsync<ResponseDto>();
+
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var responseCategory = await _categoryService.GetAllCategoriessAsync<ResponseDto>(accessToken);
 
             if (responseCategory != null && responseCategory.IsSuccess)
             {
@@ -56,12 +62,15 @@ namespace Honey.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProductCreate(ProductVM productRequest)
         {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
             if (ModelState.IsValid)
             {
-                var productResponse = await _productService.CreateProductAsync<ResponseDto>(productRequest.Product);
+                
+                var productResponse = await _productService.CreateProductAsync<ResponseDto>(productRequest.Product, accessToken);
                 if (productResponse != null && productResponse.IsSuccess)
                 {
                     return RedirectToAction(nameof(ProductIndex));
@@ -69,7 +78,7 @@ namespace Honey.Web.Controllers
             }
 
             List<CategoryDto> listCategoriesInDb = null;
-            var responseCategory = await _categoryService.GetAllCategoriessAsync<ResponseDto>();
+            var responseCategory = await _categoryService.GetAllCategoriessAsync<ResponseDto>(accessToken);
 
             if (responseCategory != null && responseCategory.IsSuccess)
             {
@@ -87,11 +96,13 @@ namespace Honey.Web.Controllers
             return View(productVM);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ProductEdit(int productId)
         {
             ProductDto productInDb = new();
 
-            var productResponse = await _productService.GetProductByIdAsync<ResponseDto>(productId);
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var productResponse = await _productService.GetProductByIdAsync<ResponseDto>(productId, accessToken);
             if (productResponse != null && productResponse.IsSuccess)
             {
                 productInDb = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(productResponse.Result));
@@ -99,7 +110,7 @@ namespace Honey.Web.Controllers
 
             List<CategoryDto> listCategoriesInDb = null;
 
-            var responseCategory = await _categoryService.GetAllCategoriessAsync<ResponseDto>();
+            var responseCategory = await _categoryService.GetAllCategoriessAsync<ResponseDto>(accessToken);
             if (responseCategory != null && responseCategory.IsSuccess)
             {
                 listCategoriesInDb = JsonConvert.DeserializeObject<List<CategoryDto>>(Convert.ToString(responseCategory.Result));
@@ -119,12 +130,14 @@ namespace Honey.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProductEdit(ProductVM productRequest)
         {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
             if (ModelState.IsValid)
             {
-                var productResponse = await _productService.UpdateProductAsync<ResponseDto>(productRequest.Product);
+                var productResponse = await _productService.UpdateProductAsync<ResponseDto>(productRequest.Product, accessToken);
                 if (productResponse != null && productResponse.IsSuccess)
                 {
                     return RedirectToAction(nameof(ProductIndex));
@@ -132,7 +145,7 @@ namespace Honey.Web.Controllers
             }
 
             List<CategoryDto> listCategoriesInDb = null;
-            var responseCategory = await _categoryService.GetAllCategoriessAsync<ResponseDto>();
+            var responseCategory = await _categoryService.GetAllCategoriessAsync<ResponseDto>(accessToken);
 
             if (responseCategory != null && responseCategory.IsSuccess)
             {
@@ -150,10 +163,13 @@ namespace Honey.Web.Controllers
             return View(productVM);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ProductDelete(int productId)
         {
             ProductDto productInDb = new();
-            var productResponse = await _productService.GetProductByIdAsync<ResponseDto>(productId);
+
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var productResponse = await _productService.GetProductByIdAsync<ResponseDto>(productId, accessToken);
             if (productResponse.IsSuccess)
             {
                 productInDb = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(productResponse.Result));
@@ -163,10 +179,12 @@ namespace Honey.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProductDelete(ProductDto productRequest)
         {
-            var productResponse = await _productService.DeleteProductAsync<ResponseDto>(productRequest.ProductId);
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var productResponse = await _productService.DeleteProductAsync<ResponseDto>(productRequest.ProductId, accessToken);
             if (productResponse.IsSuccess)
             {
                 return RedirectToAction(nameof(ProductIndex));

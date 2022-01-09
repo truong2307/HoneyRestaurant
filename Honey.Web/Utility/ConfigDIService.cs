@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Configuration;
 using System;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Honey.Web.Utility
 {
@@ -44,6 +45,8 @@ namespace Honey.Web.Utility
                     options.ClientSecret = "secret";
                     options.ResponseType = "code";
 
+                    options.ClaimActions.MapJsonKey("role", "role", "role");
+                    options.ClaimActions.MapJsonKey("sub", "sub", "sub");
                     options.TokenValidationParameters.NameClaimType = "name";
                     options.TokenValidationParameters.RoleClaimType = "role";
                     options.Scope.Add("honey");
