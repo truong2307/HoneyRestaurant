@@ -44,11 +44,13 @@ namespace Honey.Web.Services
                         , Encoding.UTF8, "application/json");
                 }
 
+                // passing token authentication to productApi
                 if (!string.IsNullOrEmpty(apiRequest.AccessToken))
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",apiRequest.AccessToken);
                 }
 
+                //get http method
                 switch (apiRequest.ApiType)
                 {
                     case SD.ApiType.GET:
@@ -68,9 +70,11 @@ namespace Honey.Web.Services
                         break;
                 }
 
+                //send request to productApi services
                 HttpResponseMessage apiResponse = null;
                 apiResponse = await client.SendAsync(message);
 
+                //receive resource from productApi
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
                 var apiResponseDto = JsonConvert.DeserializeObject<T>(apiContent);
 
