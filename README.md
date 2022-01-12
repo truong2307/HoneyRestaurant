@@ -2,6 +2,21 @@
 ## I. ProductAPI service
 ### 1. Nuget package in project
 ```
+Microsoft.AspNetCore.Authentication
+Microsoft.AspNetCore.Authentication.OpenIdConnect
+Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+Microsoft.VisualStudio.Web.CodeGeneration.Design
+Newtonsoft.Json
+System.IdentityModel.Tokens.Jwt
+```
+### 2. In project
+- [Implement base services httpClient](https://github.com/truong2307/HoneyRestaurant/blob/master/Honey.Web/Services/BaseService.cs)
+- [Implement entity service (product, category)](https://github.com/truong2307/HoneyRestaurant/commit/ce772cedd50092645c6fef75db8ddb95f53bc570)
+- [Config all DI service, add Authentication from identitySever](https://github.com/truong2307/HoneyRestaurant/blob/master/Honey.Web/Utility/ConfigDIService.cs)
+
+## II. ProductAPI service
+### 1. Nuget package in project
+```
 AutoMapper
 AutoMapper.Extensions.Microsoft.DependencyInjection
 Microsoft.AspNetCore.Authentication.JwtBearer
@@ -21,7 +36,7 @@ Swashbuckle.AspNetCore.SwaggerUI
 [Authorize(Roles = "Admin")]
 public async Task<object> Function(object parameter){Implement}      
 ```
-## II. Identity sever service
+## III. Identity sever service
 ### 1. Nuget package in project
 ```
 Duende.IdentityServer.AspNetIdentity
