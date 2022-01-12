@@ -22,7 +22,6 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<object> GetProducts()
         {
             try
@@ -41,7 +40,6 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpGet("{productId}")]
-        [Authorize]
         public async Task<object> GetProduct(int productId)
         {
             try

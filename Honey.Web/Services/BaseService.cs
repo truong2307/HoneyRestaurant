@@ -32,6 +32,7 @@ namespace Honey.Web.Services
                 var client = _httpClient.CreateClient("HoneyAPI");
 
                 HttpRequestMessage message = new HttpRequestMessage();
+
                 //Accept trong Request cho biết kiểu nội dung trả về mà client có thể hiểu.
                 message.Headers.Add("Accept", "application/json");
                 message.RequestUri = new Uri(apiRequest.Url);

@@ -22,7 +22,6 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<object> GetCategories()
         {
             try
@@ -40,7 +39,6 @@ namespace Honey.Services.ProductAPI.Controllers
         }
 
         [HttpGet("{categoryId}")]
-        [Authorize]
         public async Task<object> GetCategories(int categoryId)
         {
             try
