@@ -38,6 +38,20 @@ namespace Honey.Web.Controllers
             return View(productListInDb);
         }
 
+        [Authorize]
+        public async Task<IActionResult> Details(int productId)
+        {
+            ProductDto productInDb = new();
+            var responseProduct = await _productService.GetProductByIdAsync<ResponseDto>(productId,"");
+
+            if (responseProduct != null && responseProduct.IsSuccess)
+            {
+                productInDb = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(responseProduct.Result));
+            }
+
+            return View(productInDb);
+        }
+
         public IActionResult Privacy()
         {
             return View();
