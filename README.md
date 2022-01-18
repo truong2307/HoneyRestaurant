@@ -1,5 +1,5 @@
 # HoneyRestaurant
-## I. ProductAPI service
+## I. Honey.Web (Fe use MVC)
 ### 1. Nuget package in project
 ```
 Microsoft.AspNetCore.Authentication
