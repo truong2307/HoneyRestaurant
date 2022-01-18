@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Honey.Services.ShoppingCartAPI.Model;
+using Honey.Services.ShoppingCartAPI.Model.Dto;
 
 namespace Honey.Services.ShoppingCartAPI
 {
@@ -8,8 +10,11 @@ namespace Honey.Services.ShoppingCartAPI
         {
             var mappingConfig = new MapperConfiguration(config =>
             {
-                //config.CreateMap<Product, ProductDto>().ReverseMap();
-                //config.CreateMap<Category, CategoryDto>().ReverseMap();
+                config.CreateMap<Product, ProductDto>().ReverseMap();
+                config.CreateMap<Category, CategoryDto>().ReverseMap();
+                config.CreateMap<CartHeader, CartHeaderDto>().ReverseMap();
+                config.CreateMap<CartDetails, CartDetailsDto>().ReverseMap();
+                config.CreateMap<Cart, CartDto>().ReverseMap();
             });
 
             return mappingConfig;

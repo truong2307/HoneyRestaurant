@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Honey.Services.ShoppingCartAPI.Model
+namespace Honey.Services.ShoppingCartAPI.Model.Dto
 {
     public class CartDetailsDto
     {
