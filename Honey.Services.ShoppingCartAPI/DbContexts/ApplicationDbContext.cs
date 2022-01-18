@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Honey.Services.ShoppingCartAPI.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Honey.Services.ShoppingCartAPI.DbContexts
 {
@@ -8,5 +9,9 @@ namespace Honey.Services.ShoppingCartAPI.DbContexts
         {
         }
 
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<CartHeader> CartHeaders { get; set; }
+        public DbSet<CartDetails> CartDetails { get; set; }
     }
 }
