@@ -114,10 +114,6 @@ namespace Honey.Services.ShoppingCartAPI.Repository
                                        where cartDetail.CartHeaderId == cartResponse.CartHeader.CartHeaderId
                                        select cartDetail).Include(c => c.Product).ToList();
 
-            var test = from cartDetail in _db.CartDetails
-                       where cartDetail.CartHeaderId == cartResponse.CartHeader.CartHeaderId
-                       select cartDetail;
-
             return _mapper.Map<CartDto>(cartResponse);
         }
 
