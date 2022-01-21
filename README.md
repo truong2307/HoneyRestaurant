@@ -56,5 +56,29 @@ Microsoft.EntityFrameworkCore.Tools
 - [Seeding user](https://github.com/truong2307/HoneyRestaurant/blob/master/Honey.Services.Identity/Initializer/DbInitializer.cs)
 - [Implement login](https://github.com/truong2307/HoneyRestaurant/commit/3c4096828945ea1cbd0500ee1218e0a82afe1718), and [register](https://github.com/truong2307/HoneyRestaurant/commit/97f26548f41045f6c3a1cc59cf20a75f2058b12b)
 - [Modify ClaimsPrincipal info user](https://github.com/truong2307/HoneyRestaurant/blob/master/Honey.Services.Identity/Services/ProfileService.cs)
-> admin account
-```id: admin@mail.com pass: Tt123` ```
+```c#
+admin account test:
+id: admin@mail.com pass: Tt123`
+```
+## IV. ShoppingCartAPI service
+### 1. Nuget package in project
+```
+AutoMapper
+AutoMapper.Extensions.Microsoft.DependencyInjection
+Microsoft.AspNetCore.Authentication.JwtBearer
+Microsoft.EntityFrameworkCore.Design
+Microsoft.EntityFrameworkCore.SqlServer
+Newtonsoft.Json
+Swashbuckle.AspNetCore
+Swashbuckle.AspNetCore.Annotations
+Swashbuckle.AspNetCore.SwaggerUI
+```
+### 2. In project
+- [Implement CartRepository: create, update, remove, clear shoppingCart, get shoppingCart by userId](https://github.com/truong2307/HoneyRestaurant/blob/master/Honey.Services.ShoppingCartAPI/Repository/CartRepository.cs)
+- [Config all services lifetime, add authentication bearer](https://github.com/truong2307/HoneyRestaurant/blob/master/Honey.Services.ShoppingCartAPI/Utility/ConfigDIServices.cs)
+- [Controller shoppingCart endPoint](https://github.com/truong2307/HoneyRestaurant/blob/master/Honey.Services.ShoppingCartAPI/Controllers/CartController.cs)
+
+
+
+
+
