@@ -3,6 +3,7 @@ using Honey.Services.ShoppingCartAPI.DbContexts;
 using Honey.Services.ShoppingCartAPI.Model;
 using Honey.Services.ShoppingCartAPI.Model.Dto;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +22,23 @@ namespace Honey.Services.ShoppingCartAPI.Repository
 
         public async Task<bool> ClearCart(string userId)
         {
-            throw new System.NotImplementedException();
+            var cartHeaderFromDb = await _db.CartHeaders
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (cartHeaderFromDb != null)
+            {
+                var cartDetailsToRemove = (from cartDetail in _db.CartDetails
+                                          where cartDetail.CartHeaderId == cartHeaderFromDb.CartHeaderId
+                                          select cartDetail).ToList();
+
+                _db.CartDetails.RemoveRange(cartDetailsToRemove);
+                _db.CartHeaders.Remove(cartHeaderFromDb);
+                await _db.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<CartDto> CreateUpdateCart(CartDto cartRequest)
@@ -88,12 +105,46 @@ namespace Honey.Services.ShoppingCartAPI.Repository
 
         public async Task<CartDto> GetCartById(string userId)
         {
-            throw new System.NotImplementedException();
+            Cart cartResponse = new Cart()
+            {
+                CartHeader = await _db.CartHeaders.FirstOrDefaultAsync(c => c.UserId == userId)
+            };
+
+            cartResponse.CartDetails = (from cartDetail in _db.CartDetails
+                                       where cartDetail.CartHeaderId == cartResponse.CartHeader.CartHeaderId
+                                       select cartDetail).Include(c => c.Product).ToList();
+
+            return _mapper.Map<CartDto>(cartResponse);
         }
 
         public async Task<bool> RemoveFromCart(int cartDetailsId)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                CartDetails cartDetailInDb = await _db.CartDetails
+                .FirstOrDefaultAsync(c => c.CartDetailsId == cartDetailsId);
+
+                int totalCountOfCartItem = (from cartDetail in _db.CartDetails
+                                            where cartDetail.CartHeaderId == cartDetailInDb.CartHeaderId
+                                            select cartDetail).Count();
+                _db.CartDetails.Remove(cartDetailInDb);
+
+                //if total item == 1 then delete cart header
+                if (totalCountOfCartItem == 1)
+                {
+                    var cartHeaderToRemove = await _db.CartHeaders
+                        .FirstOrDefaultAsync(c => c.CartHeaderId == cartDetailInDb.CartHeaderId);
+
+                    _db.CartHeaders.Remove(cartHeaderToRemove);
+                }
+                await _db.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
