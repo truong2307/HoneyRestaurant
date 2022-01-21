@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Honey.Services.ShoppingCartAPI.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -16,7 +17,7 @@ namespace Honey.Services.ShoppingCartAPI.Utility
             services.AddSingleton(mapper);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            //services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICartRepository,CartRepository>();
 
             return services;
         }
