@@ -15,12 +15,14 @@ namespace Honey.Web.Utility
             // register http client
             services.AddHttpClient<IProductService, ProductService>();
             services.AddHttpClient<ICategoryService, CategoryService>();
+            services.AddHttpClient<ICartService, CartService>();
 
             // register Multiple service
             services.TryAddEnumerable(new[]
             {
                 ServiceDescriptor.Scoped<IProductService, ProductService>(),
-                ServiceDescriptor.Scoped<ICategoryService,CategoryService>()
+                ServiceDescriptor.Scoped<ICategoryService,CategoryService>(),
+                ServiceDescriptor.Scoped<ICartService,CartService>()
             });
 
             //get value appsetting
