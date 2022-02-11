@@ -25,6 +25,7 @@ namespace Honey.Web.Utility
 
             //get value appsetting
             SD.ProductAPIBase = configuration["ServiceUrls:ProductAPI"];
+            SD.ShoppingCartAPIBase = configuration["ServiceUrls:ShoppingCartAPI"];
 
             return services;
         }
