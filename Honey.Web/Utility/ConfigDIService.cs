@@ -34,6 +34,8 @@ namespace Honey.Web.Utility
 
         public static IServiceCollection ConfigToUseIdentitySever(this IServiceCollection services, IConfiguration configuration)
         {
+            // Sử dụng cookie để làm lượt đồ mặc định, khi user request login sẽ dùng cố gắng dùng cookie của người dùng để xác thực, nên set DefaultScheme = "Cookies" 
+            // Trường hợp người dùng muốn chuyển hướng đến provider (identity sever ) để login thì có thể đăng nhập và return về với danh tính, nên set DefaultChallengeScheme = "oidc".
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "Cookies";
