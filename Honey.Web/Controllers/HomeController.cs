@@ -18,11 +18,13 @@ namespace Honey.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
+        private readonly ICartService _cartService;
 
-        public HomeController(ILogger<HomeController> logger, IProductService productService)
+        public HomeController(ILogger<HomeController> logger, IProductService productService, ICartService cartService)
         {
             _logger = logger;
             _productService = productService;
+            _cartService = cartService;
         }
 
         public async Task<IActionResult> Index()
@@ -50,6 +52,57 @@ namespace Honey.Web.Controllers
             }
 
             return View(productInDb);
+        }
+
+        /// <summary>
+        /// Thêm order vào giỏ hàng
+        /// </summary>
+        /// <param name="productRequest">object Order vào giỏ hàng</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        [ActionName("Details")]
+        public async Task<IActionResult> DetailsPost(ProductDto productRequest)
+        {
+            CartDto cartDto = new CartDto()
+            {
+                //Lấy id user
+                CartHeader = new CartHeaderDto
+                {
+                    UserId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value
+                },
+            };
+
+            //Lấy số lượng order và productId
+            CartDetailsDto CartDetail = new CartDetailsDto()
+            {
+                Count = productRequest.Count,
+                ProductId = productRequest.ProductId
+            };
+
+            //Lấy product theo order để gán vào CartDetail.Product
+            var productInDb = await _productService.GetProductByIdAsync<ResponseDto>(productRequest.ProductId, "");
+
+            if (productInDb != null && productInDb.IsSuccess)
+            {
+                CartDetail.Product = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(productInDb.Result));
+            }
+
+
+            List<CartDetailsDto> CartDetailList = new List<CartDetailsDto>();
+            CartDetailList.Add(CartDetail);
+            cartDto.CartDetails = CartDetailList;
+
+            //get token access của user để add cart cho user
+            var tokenAccess = await HttpContext.GetTokenAsync("access_token");
+            var cartRsp = await _cartService.AddToCartAsync<ResponseDto>(cartDto, tokenAccess);
+
+            if (cartRsp != null && cartRsp.IsSuccess)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(productRequest);
         }
 
         public IActionResult Privacy()
