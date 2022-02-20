@@ -2,7 +2,7 @@
 
 namespace Honey.Services.ShoppingCartAPI.Migrations
 {
-    public partial class addProductAndCartToDb : Migration
+    public partial class addShoppingcart : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,8 +24,7 @@ namespace Honey.Services.ShoppingCartAPI.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

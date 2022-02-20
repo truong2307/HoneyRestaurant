@@ -64,9 +64,7 @@ namespace Honey.Services.ShoppingCartAPI.Migrations
             modelBuilder.Entity("Honey.Services.ShoppingCartAPI.Model.Category", b =>
                 {
                     b.Property<int>("CategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
