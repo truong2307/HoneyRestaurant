@@ -86,6 +86,7 @@ namespace Honey.Web.Controllers
             if (productInDb != null && productInDb.IsSuccess)
             {
                 CartDetail.Product = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(productInDb.Result));
+                productRequest = CartDetail.Product;
             }
 
 

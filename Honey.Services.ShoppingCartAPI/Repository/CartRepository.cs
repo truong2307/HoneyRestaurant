@@ -49,9 +49,21 @@ namespace Honey.Services.ShoppingCartAPI.Repository
                 .FirstOrDefaultAsync(c =>
                 c.ProductId == cartToDb.CartDetails.FirstOrDefault().ProductId);
 
+            var categoryInDb = await _db.Categories
+                .FirstOrDefaultAsync(c =>
+                c.CategoryId == cartToDb.CartDetails.FirstOrDefault().Product.CategoryId);
+
+            //Check if category exists in database, if not create it
+            if (categoryInDb == null)
+            {
+                _db.Categories.Add(cartToDb.CartDetails.FirstOrDefault().Product.Category);
+                await _db.SaveChangesAsync();
+            }
+
             //Check if product exists in database, if not create it
             if (productInDb == null)
             {
+                cartToDb.CartDetails.FirstOrDefault().Product.Category = null;
                 _db.Products.Add(cartToDb.CartDetails.FirstOrDefault().Product);
                 await _db.SaveChangesAsync();
             }
@@ -66,7 +78,10 @@ namespace Honey.Services.ShoppingCartAPI.Repository
                 _db.CartHeaders.Add(cartToDb.CartHeader);
                 await _db.SaveChangesAsync();
 
-                cartToDb.CartDetails.FirstOrDefault().CartHeaderId = cartHeaderInDb.CartHeaderId;
+                var cartHeader = await _db.CartHeaders.AsNoTracking()
+                .FirstOrDefaultAsync(c => c.UserId == cartToDb.CartHeader.UserId);
+
+                cartToDb.CartDetails.FirstOrDefault().CartHeaderId = cartHeader.CartHeaderId;
                 cartToDb.CartDetails.FirstOrDefault().Product = null;
 
                 _db.CartDetails.Add(cartToDb.CartDetails.FirstOrDefault());
