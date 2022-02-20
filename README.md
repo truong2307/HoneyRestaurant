@@ -10,6 +10,7 @@ Newtonsoft.Json
 System.IdentityModel.Tokens.Jwt
 ```
 ### 2. In project
+- [Docs HttpContext class](https://www.c-sharpcorner.com/UploadFile/dacca2/httpcontext-class-in-Asp-Net/)
 - [Implement base services httpClient](https://github.com/truong2307/HoneyRestaurant/blob/master/Honey.Web/Services/BaseService.cs)
 - [Implement entity service (product, category)](https://github.com/truong2307/HoneyRestaurant/commit/ce772cedd50092645c6fef75db8ddb95f53bc570)
 - [Config all DI service, add Authentication from identitySever](https://github.com/truong2307/HoneyRestaurant/blob/master/Honey.Web/Utility/ConfigDIService.cs)
