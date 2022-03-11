@@ -1,4 +1,9 @@
 ﻿<!DOCTYPE html>
+
+@using Honey.Web.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccess
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,6 +36,27 @@
                          <li class="nav-item pt-lg-1">
                             <a class="nav-link" asp-area="" asp-controller="Category" asp-action="CategoryIndex">Category</a>
                         </li>
+                        }
+
+                        @if (HttpContextAccess.HttpContext.Session.GetInt32(SD.SessionShoppingCart) != null)
+                        {
+                            <li class="nav-item pt-lg-1">
+                                <a class="nav-link" asp-area="" asp-controller="ShoppingCart" asp-action="Index">
+                                    @{
+                                        var count = HttpContextAccess.HttpContext.Session.GetInt32(SD.SessionShoppingCart);
+                                    }
+                                    <i class="fas fa-shopping-cart"></i> &nbsp; (@count)
+                                </a>
+
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item pt-lg-1">
+                                <a class="nav-link" asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index">
+                                    <i class="fas fa-shopping-cart"></i> &nbsp; (0)
+                                </a>
+                            </li>
                         }
                     </ul>
                 </div>

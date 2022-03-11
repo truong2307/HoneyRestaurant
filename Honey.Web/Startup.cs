@@ -52,6 +52,8 @@ namespace Honey.Web
 
             app.UseRouting();
 
+            app.UseSession();
+
             app.UseAuthentication();
 
             app.UseAuthorization();

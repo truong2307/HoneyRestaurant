@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Configuration;
 using System;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 
 namespace Honey.Web.Utility
 {
@@ -24,6 +26,17 @@ namespace Honey.Web.Utility
                 ServiceDescriptor.Scoped<ICategoryService,CategoryService>(),
                 ServiceDescriptor.Scoped<ICartService,CartService>()
             });
+
+            //add session service
+            services.AddSession(option =>
+            {
+                option.IdleTimeout = TimeSpan.FromMinutes(30);
+                option.Cookie.HttpOnly = true;
+                option.Cookie.IsEssential = true;
+            });
+
+            //regis httpcontext
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //get value appsetting
             SD.ProductAPIBase = configuration["ServiceUrls:ProductAPI"];

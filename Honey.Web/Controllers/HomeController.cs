@@ -3,6 +3,7 @@ using Honey.Web.Models.Dto;
 using Honey.Web.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -36,6 +37,26 @@ namespace Honey.Web.Controllers
             {
                 productListInDb = JsonConvert.DeserializeObject<List<ProductDto>>(Convert.ToString(responseProduct.Result));
             }
+
+            CartDto cart = new CartDto();
+
+            var userId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+            
+            if (!string.IsNullOrEmpty(userId))
+            {
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var responseCart = await _cartService.GetCartByUserIdAsync<ResponseDto>(userId, accessToken);
+
+                if (responseCart != null && responseCart.IsSuccess)
+                {
+                    cart = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(responseCart.Result));
+                }
+
+                var amountCart = cart.CartDetails.Count();
+
+                HttpContext.Session.SetInt32(SD.SessionShoppingCart, amountCart);
+            }
+            
 
             return View(productListInDb);
         }
@@ -100,6 +121,23 @@ namespace Honey.Web.Controllers
 
             if (cartRsp != null && cartRsp.IsSuccess)
             {
+                var userId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    CartDto cart = new CartDto();
+                    var accessToken = await HttpContext.GetTokenAsync("access_token");
+                    var responseCart = await _cartService.GetCartByUserIdAsync<ResponseDto>(userId, accessToken);
+
+                    if (responseCart != null && responseCart.IsSuccess)
+                    {
+                        cart = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(responseCart.Result));
+                    }
+
+                    var amountCart = cart.CartDetails.Count();
+
+                    HttpContext.Session.SetInt32(SD.SessionShoppingCart, amountCart);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -127,6 +165,8 @@ namespace Honey.Web.Controllers
 
         public IActionResult Logout()
         {
+            HttpContext.Session.SetInt32(SD.SessionShoppingCart, 0);
+
             return SignOut("Cookies","oidc");
         }
     }
