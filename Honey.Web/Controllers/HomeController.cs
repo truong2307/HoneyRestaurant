@@ -46,13 +46,13 @@ namespace Honey.Web.Controllers
             {
                 var accessToken = await HttpContext.GetTokenAsync("access_token");
                 var responseCart = await _cartService.GetCartByUserIdAsync<ResponseDto>(userId, accessToken);
+                int amountCart = 0;
 
                 if (responseCart != null && responseCart.IsSuccess)
                 {
                     cart = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(responseCart.Result));
+                    amountCart = cart.CartDetails.Count();
                 }
-
-                var amountCart = cart.CartDetails.Count();
 
                 HttpContext.Session.SetInt32(SD.SessionShoppingCart, amountCart);
             }
@@ -122,6 +122,7 @@ namespace Honey.Web.Controllers
             if (cartRsp != null && cartRsp.IsSuccess)
             {
                 var userId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+
                 if (!string.IsNullOrEmpty(userId))
                 {
                     CartDto cart = new CartDto();
