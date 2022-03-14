@@ -35,6 +35,14 @@ namespace Honey.Web.Controllers
             {
                 cartInDb = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(responseCart.Result));
                 ammountCart = cartInDb.CartDetails.Count();
+                double totalPrice = 0;
+
+                foreach (var item in cartInDb.CartDetails)
+                {
+                    totalPrice += (double)item.Count * item.Product.Price;
+                }
+
+                cartInDb.CartHeader.OrderTotal = totalPrice;
             }
             
             HttpContext.Session.SetInt32(SD.SessionShoppingCart, ammountCart);

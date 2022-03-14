@@ -91,7 +91,7 @@ namespace Honey.Services.ShoppingCartAPI.Repository
             {
                 //if cart header not null
                 //check if detail has same product
-                var cartDetailInDb = await _db.CartDetails.AsNoTracking()
+                var cartDetailInDb = await _db.CartDetails
                     .FirstOrDefaultAsync(c =>
                     c.ProductId == cartToDb.CartDetails.FirstOrDefault().ProductId
                     && c.CartHeaderId == cartHeaderInDb.CartHeaderId);
@@ -107,9 +107,9 @@ namespace Honey.Services.ShoppingCartAPI.Repository
                 else
                 {
                     //update the count / cart details
-                    cartToDb.CartDetails.FirstOrDefault().Product = null;
-                    cartToDb.CartDetails.FirstOrDefault().Count += cartDetailInDb.Count;
-                    _db.CartDetails.Update(cartToDb.CartDetails.FirstOrDefault());
+                    cartDetailInDb.Count += cartToDb.CartDetails.FirstOrDefault().Count;
+
+                    //_db.CartDetails.Update(cartToDb.CartDetails.FirstOrDefault());
 
                     await _db.SaveChangesAsync();
                 }
