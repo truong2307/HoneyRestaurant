@@ -14,7 +14,7 @@ System.IdentityModel.Tokens.Jwt
 - [Implement base services httpClient](https://github.com/truong2307/HoneyRestaurant/blob/master/Honey.Web/Services/BaseService.cs)
 - [Implement entity service (product, category)](https://github.com/truong2307/HoneyRestaurant/commit/ce772cedd50092645c6fef75db8ddb95f53bc570)
 - [Config all DI service, add Authentication from identitySever](https://github.com/truong2307/HoneyRestaurant/blob/master/Honey.Web/Utility/ConfigDIService.cs)
-- [Controller manage category and product](https://github.com/truong2307/HoneyRestaurant/tree/master/Honey.Web/Controllers)
+- [Controller manage category, product, shoppingCart](https://github.com/truong2307/HoneyRestaurant/tree/master/Honey.Web/Controllers)
 - [Pass token access to productApi to get resource](https://github.com/truong2307/HoneyRestaurant/commit/42f478fa9284b244b0d64c8389d3b1b44ae3871e)
 
 ## II. ProductAPI service
