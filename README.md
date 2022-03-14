@@ -1,5 +1,10 @@
 # HoneyRestaurant
 ## I. Honey.Web (Fe use MVC)
+### HomePage
+![homepage](https://drive.google.com/uc?export=view&id=1VmoGWYfu-3PAZ1JwaVgTXj6-BYAUdFsB)
+### ShoppingCart
+![ShoppingCart](https://drive.google.com/uc?export=view&id=1AyHldHaF8xjsE64SFJXduOSFG587jP3U)
+
 ### 1. Nuget package in project
 ```
 Microsoft.AspNetCore.Authentication
