@@ -1,6 +1,6 @@
 ﻿@model Honey.Web.Models.Dto.CartDto
 
-@if (Model.CartHeader != null & Model.CartDetails.Count() > 0)
+@if (Model.CartHeader != null && Model.CartDetails != null && Model.CartDetails.Count() > 0)
 {
 
 <form method="post">
@@ -48,7 +48,7 @@
                         <h5>@cartObj.Product.Name</h5>
                         <div style="font-size:14px;">@Html.Raw(cartObj.Product.Description)</div>
                     </div>
-                    <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
+                    <div class="col-6 col-md-2 pt-md-4" style="font-size:11px;">
                         <span style="font-size:17px;">@string.Format("{0:c}",cartObj.Product.Price* cartObj.Count ) </span>
                     </div>
                     <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
