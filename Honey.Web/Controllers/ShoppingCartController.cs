@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Honey.Web.Controllers
 {
+    [Authorize]
     public class ShoppingCartController : Controller
     {
         private readonly ICartService _cartService;
@@ -21,7 +22,6 @@ namespace Honey.Web.Controllers
             _cartService = cartService;
         }
 
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             CartDto cartInDb = new CartDto();
