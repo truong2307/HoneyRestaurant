@@ -1,5 +1,4 @@
-﻿using Honey.Web.Models;
-using Honey.Web.Models.Dto;
+﻿using Honey.Web.Models.Dto;
 using Honey.Web.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +21,7 @@ namespace Honey.Web.Controllers
             _cartService = cartService;
         }
 
+        
         public async Task<IActionResult> Index()
         {
             CartDto cartInDb = new CartDto();
@@ -34,17 +34,22 @@ namespace Honey.Web.Controllers
             if (responseCart.IsSuccess && responseCart != null)
             {
                 cartInDb = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(responseCart.Result));
-                ammountCart = cartInDb.CartDetails.Count();
-                double totalPrice = 0;
 
-                foreach (var item in cartInDb.CartDetails)
+                if (cartInDb.CartHeader != null)
                 {
-                    totalPrice += (double)item.Count * item.Product.Price;
-                }
+                    ammountCart = cartInDb.CartDetails.Count();
+                    double totalPrice = 0;
 
-                cartInDb.CartHeader.OrderTotal = totalPrice;
+                    foreach (var item in cartInDb.CartDetails)
+                    {
+                        totalPrice += (double)item.Count * item.Product.Price;
+                    }
+
+                    cartInDb.CartHeader.OrderTotal = totalPrice;
+                }
+               
             }
-            
+
             HttpContext.Session.SetInt32(SD.SessionShoppingCart, ammountCart);
 
             return View(cartInDb);
@@ -61,7 +66,7 @@ namespace Honey.Web.Controllers
 
                 if (remoteCartSuccess && tryPareResultResponse)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return Json(new { success = true});
                 }
             }
 

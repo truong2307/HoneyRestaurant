@@ -125,10 +125,13 @@ namespace Honey.Services.ShoppingCartAPI.Repository
                 CartHeader = await _db.CartHeaders.FirstOrDefaultAsync(c => c.UserId == userId)
             };
 
-            cartResponse.CartDetails = (from cartDetail in _db.CartDetails
-                                       where cartDetail.CartHeaderId == cartResponse.CartHeader.CartHeaderId
-                                       select cartDetail).Include(c => c.Product).ToList();
-
+            if (cartResponse.CartHeader != null)
+            {
+                cartResponse.CartDetails = (from cartDetail in _db.CartDetails
+                                            where cartDetail.CartHeaderId == cartResponse.CartHeader.CartHeaderId
+                                            select cartDetail).Include(c => c.Product).ToList();
+            }
+            
             return _mapper.Map<CartDto>(cartResponse);
         }
 
