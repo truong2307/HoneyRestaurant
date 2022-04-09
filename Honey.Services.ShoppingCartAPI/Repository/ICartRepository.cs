@@ -9,5 +9,6 @@ namespace Honey.Services.ShoppingCartAPI.Repository
         Task<CartDto> CreateUpdateCart(CartDto cartRequest);
         Task<bool> RemoveFromCart(int cartDetailsId);
         Task<bool> ClearCart(string userId);
+        Task<bool> MinusPlusCart(int cartDetailId, int cartHeaderId, bool isPlus);
     }
 }

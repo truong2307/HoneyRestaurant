@@ -53,5 +53,14 @@ namespace Honey.Web.Services
                 AccessToken = token
             });
         }
+
+        public async Task<T> MinusPlusCart<T>(int cartDetailId, int cartHeaderId, bool isPlus)
+        {
+            return await this.SendAsync<T>(new ApiRequest()
+            {
+                ApiType = SD.ApiType.POST,
+                Url = SD.ShoppingCartAPIBase + "api/cart/PlusCart?cartDetailId=" + cartDetailId + "&cartHeaderId="+ cartHeaderId + "&isPlus=" +isPlus,
+            });
+        }
     }
 }

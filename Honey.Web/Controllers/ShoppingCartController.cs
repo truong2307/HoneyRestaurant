@@ -72,5 +72,41 @@ namespace Honey.Web.Controllers
 
             return PartialView("~/Views/Shared/Error.cshtml");
         }
+
+        public async Task<IActionResult> Plus (int cartDetailsId, bool isPlus)
+        {
+            CartDto cartInDb = new CartDto();
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var userId = User.Claims.FirstOrDefault(u => u.Type == "sub").Value;
+
+            var cartResponse = await _cartService.GetCartByUserIdAsync<ResponseDto>(userId, accessToken);
+            if (cartResponse.IsSuccess && cartResponse != null)
+            {
+                cartInDb = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(cartResponse.Result));
+
+                if (cartInDb.CartHeader != null && cartInDb.CartDetails.Count() > 0)
+                {
+                    ResponseDto updateCartRsp = new();
+
+                    switch (true)
+                    {
+                        case true when isPlus:
+                             updateCartRsp = await _cartService.MinusPlusCart<ResponseDto>(cartDetailsId, cartInDb.CartHeader.CartHeaderId, isPlus);
+                            break;
+                        default:
+                            updateCartRsp = await _cartService.MinusPlusCart<ResponseDto>(cartDetailsId, cartInDb.CartHeader.CartHeaderId, isPlus);
+                            break;
+                    }
+
+                    if (updateCartRsp != null && updateCartRsp.IsSuccess)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+
+            return PartialView("~/Views/Shared/Error.cshtml");
+        }
+        
     }
 }

@@ -9,5 +9,6 @@ namespace Honey.Web.Services.IServices
         Task<T> AddToCartAsync<T>(CartDto cartRequest, string token = null);
         Task<T> UpdateCartAsync<T>(CartDto cartRequest, string token = null);
         Task<T> RemoveFromCartAsync<T>(int cartId, string token = null);
+        Task<T> MinusPlusCart<T>(int cartDetailId, int cartHeaderId, bool isPlus);
     }
 }

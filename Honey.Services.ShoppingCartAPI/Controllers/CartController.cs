@@ -88,5 +88,22 @@ namespace Honey.Services.ShoppingCartAPI.Controllers
 
             return _responseDto;
         }
+
+        [HttpPost("PlusCart")]
+        public async Task<object> PlusCart(int cartDetailId, int cartHeaderId, bool isPlus)
+        {
+            try
+            {
+                bool plusCartRsp = await _cartRepository.MinusPlusCart(cartDetailId, cartHeaderId, isPlus);
+                _responseDto.Result = plusCartRsp;
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+
+            return _responseDto;
+        }
     }
 }

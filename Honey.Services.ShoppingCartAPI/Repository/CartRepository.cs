@@ -164,5 +164,31 @@ namespace Honey.Services.ShoppingCartAPI.Repository
                 return false;
             }
         }
+
+        public async Task<bool> MinusPlusCart(int cartDetailId, int cartHeaderId, bool isPlus)
+        {
+            var cartDetailInDb = _db.CartDetails
+                .FirstOrDefault(c => c.CartDetailsId == cartDetailId && c.CartHeaderId == cartHeaderId);
+
+            if (cartDetailInDb != null)
+            {
+                switch (true)
+                {
+                    case true when isPlus:
+                        cartDetailInDb.Count += 1;
+                        break;
+                    default:
+                        cartDetailInDb.Count -= 1;
+                        if (cartDetailInDb.Count == 0) await RemoveFromCart(cartDetailId);
+                        break;
+                }
+                
+                await _db.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

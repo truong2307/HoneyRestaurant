@@ -55,10 +55,10 @@
                         <span style="font-size:17px;"> @cartObj.Count</span>
                     </div>
                     <div class="col-2 col-lg-2 p-0 pt-lg-4 text-center">
-                        <a asp-action="" asp-route-cartDetailsId="" class="btn btn-outline-success">
+                        <a asp-action="Plus" asp-route-cartDetailsId="@cartObj.CartDetailsId" asp-route-isPlus="true" class="btn btn-outline-success">
                             <i class="fas fa-plus"></i>
                         </a>
-                        <a class="btn btn-outline-warning">
+                        <a asp-action="Plus" asp-route-cartDetailsId="@cartObj.CartDetailsId" asp-route-isPlus="false" class="btn btn-outline-warning">
                             <i class="fas fa-minus"></i>
                         </a>
                         <a onclick = "Delete(@cartObj.CartDetailsId)" class="btn btn-outline-danger">
@@ -120,7 +120,7 @@ else
       function Delete(idCart){
         swal({
           title: "Are you sure?",
-          text: "Once deleted, you will not be able to recover this imaginary file!",
+          text: "Delete the product!",
           icon: "warning",
           buttons: true,
           dangerMode: true,
