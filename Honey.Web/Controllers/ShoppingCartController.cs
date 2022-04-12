@@ -73,7 +73,7 @@ namespace Honey.Web.Controllers
             return PartialView("~/Views/Shared/Error.cshtml");
         }
 
-        public async Task<IActionResult> Plus (int cartDetailsId, bool isPlus)
+        public async Task<IActionResult> PlusMinus (int cartDetailsId, bool isPlus)
         {
             CartDto cartInDb = new CartDto();
             var accessToken = await HttpContext.GetTokenAsync("access_token");

@@ -159,7 +159,7 @@ namespace Honey.Services.ShoppingCartAPI.Repository
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

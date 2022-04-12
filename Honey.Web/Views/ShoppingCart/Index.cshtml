@@ -55,10 +55,10 @@
                         <span style="font-size:17px;"> @cartObj.Count</span>
                     </div>
                     <div class="col-2 col-lg-2 p-0 pt-lg-4 text-center">
-                        <a asp-action="Plus" asp-route-cartDetailsId="@cartObj.CartDetailsId" asp-route-isPlus="true" class="btn btn-outline-success">
+                        <a asp-action="PlusMinus" asp-route-cartDetailsId="@cartObj.CartDetailsId" asp-route-isPlus="true" class="btn btn-outline-success">
                             <i class="fas fa-plus"></i>
                         </a>
-                        <a asp-action="Plus" asp-route-cartDetailsId="@cartObj.CartDetailsId" asp-route-isPlus="false" class="btn btn-outline-warning">
+                        <a asp-action="PlusMinus" asp-route-cartDetailsId="@cartObj.CartDetailsId" asp-route-isPlus="false" class="btn btn-outline-warning">
                             <i class="fas fa-minus"></i>
                         </a>
                         <a onclick = "Delete(@cartObj.CartDetailsId)" class="btn btn-outline-danger">

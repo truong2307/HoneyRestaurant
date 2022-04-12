@@ -89,7 +89,7 @@ namespace Honey.Services.ShoppingCartAPI.Controllers
             return _responseDto;
         }
 
-        [HttpPost("PlusCart")]
+        [HttpGet("PlusCart")]
         public async Task<object> PlusCart(int cartDetailId, int cartHeaderId, bool isPlus)
         {
             try

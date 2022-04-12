@@ -58,7 +58,7 @@ namespace Honey.Web.Services
         {
             return await this.SendAsync<T>(new ApiRequest()
             {
-                ApiType = SD.ApiType.POST,
+                ApiType = SD.ApiType.GET,
                 Url = SD.ShoppingCartAPIBase + "api/cart/PlusCart?cartDetailId=" + cartDetailId + "&cartHeaderId="+ cartHeaderId + "&isPlus=" +isPlus,
             });
         }
